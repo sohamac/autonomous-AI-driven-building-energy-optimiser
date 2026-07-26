@@ -44,12 +44,8 @@ REQUIRED_FILES = {
 
 
 def print_banner():
-    print(f"""{CYAN}{BOLD}
-╔══════════════════════════════════════════════════════════╗
-║          🌿  ECO-LOOP BUILDING AGENTS  🌿                  ║
-║   EnergyPlus + Open-Source LLM Closed-Loop Optimization    ║
-╚══════════════════════════════════════════════════════════╝{RESET}
-""")
+    print(f"{CYAN}{BOLD}Eco-Loop Building Agents{RESET}")
+    print("EnergyPlus + Open-Source LLM Closed-Loop Optimization\n")
 
 
 def check_prereqs():
@@ -62,7 +58,7 @@ def check_prereqs():
 
 def run_step(label: str, script: str, extra_args=None):
     """Runs a real pipeline script as a subprocess and streams its output live."""
-    print(f"\n{BOLD}━━━ {label} ━━━{RESET}")
+    print(f"\n{BOLD}{label}{RESET}")
     cmd = [sys.executable, script] + (extra_args or [])
     print(f"  {DIM}$ {' '.join(cmd)}{RESET}\n")
 
@@ -71,10 +67,10 @@ def run_step(label: str, script: str, extra_args=None):
     elapsed = time.time() - start
 
     if result.returncode != 0:
-        print(f"\n  {RED}✗ {label} failed (exit code {result.returncode}){RESET}")
+        print(f"\n  {RED}Failed: {label} (exit code {result.returncode}){RESET}")
         sys.exit(result.returncode)
 
-    print(f"\n  {GREEN}✓ {label} complete{RESET} ({elapsed:.1f}s)")
+    print(f"\n  {GREEN}Done: {label}{RESET} ({elapsed:.1f}s)")
 
 
 def print_comparison():
@@ -93,12 +89,10 @@ def print_comparison():
     savings_pct = rec["kwh_savings_pct"]
     color = GREEN if savings_pct > 0 else RED
 
-    print(f"\n{BOLD}{'═' * 58}{RESET}")
-    print(f"{BOLD}               📊 RESULTS COMPARISON{RESET}")
-    print(f"{BOLD}{'═' * 58}{RESET}")
+    print(f"\n{BOLD}Results Comparison{RESET}\n")
     rows = [
         ("Baseline Annual Energy", f"{baseline_kwh:,.1f} kWh"),
-        ("Recommended Setpoint", f"{rec['cooling_c']}°C cool / {rec['heating_c']}°C heat"),
+        ("Recommended Setpoint", f"{rec['cooling_c']}C cool / {rec['heating_c']}C heat"),
         ("Optimized Annual Energy", f"{rec['annual_kwh']:,.1f} kWh"),
         ("Energy Savings", f"{color}{savings_pct:+.1f}%{RESET}"),
         ("Baseline Comfort Violations", f"{baseline_violations}"),
@@ -106,11 +100,10 @@ def print_comparison():
     ]
     for label, value in rows:
         print(f"  {label:<32} {BOLD}{value}{RESET}")
-    print(f"{BOLD}{'═' * 58}{RESET}")
 
     if os.path.exists("agent_final_recommendation.txt"):
         with open("agent_final_recommendation.txt") as f:
-            print(f"\n{BOLD}🤖 Agent's reasoning:{RESET}\n  {f.read().strip()}\n")
+            print(f"\n{BOLD}Agent's reasoning:{RESET}\n  {f.read().strip()}\n")
 
 
 def cmd_run(args):
@@ -127,7 +120,7 @@ def cmd_run(args):
         print(f"  Then: {YELLOW}export GROQ_API_KEY='your-key-here'{RESET} (or copy .env.example to .env)")
 
     print_comparison()
-    print(f"\n{BOLD}🎉 Pipeline complete!{RESET} Open {CYAN}dashboard.html{RESET} in a browser to view the full report.\n")
+    print(f"\n{BOLD}Pipeline complete.{RESET} Open {CYAN}dashboard.html{RESET} in a browser to view the full report.\n")
 
 
 def cmd_baseline(args):
