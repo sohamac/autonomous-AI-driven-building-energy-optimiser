@@ -1,5 +1,8 @@
 myenv/
+venv/
 output/
 output_mumbai_baseline/
+output_agent_run/
 *.pyc
 __pycache__/
+.DS_Store
