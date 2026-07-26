@@ -16,6 +16,7 @@ Usage:
 
 import json
 import os
+import time
 from groq import Groq
 
 # Reuse the exact same tool implementations you already tested by hand.
@@ -143,15 +144,28 @@ energy but risks comfort violations, as seen in the manual test above. The
 correct move is usually a SMALL, ONE-DIRECTION adjustment (change only
 heating OR only cooling, not both, by 0.5C), evaluated one step at a time.
 
+CRITICAL -- EXACT SCHEDULE NAMES: this building has exactly two setpoint
+schedules, and their names are ALWAYS exactly these two strings, verbatim,
+with no variation:
+  - heating_schedule_name = "HTGSETP_SCH"
+  - cooling_schedule_name = "CLGSETP_SCH"
+Do NOT invent, abbreviate, or guess a different name (e.g. never use
+something like "heating_schedule_1"). Use exactly the two strings above
+in every call to set_zone_setpoint. You do not need to call
+list_zone_thermostats to discover these -- they are given here.
+
 Available tools:
 - get_current_summary: COMPACT view -- annual total kWh, plus only the
   month/zone combinations currently violating the comfort constraint. If
   num_comfort_violations is 0, comfort is fully satisfied everywhere.
-- list_zone_thermostats: see valid schedule names to act on
+- list_zone_thermostats: optional cross-check only; the schedule names are
+  already given to you above, so you should rarely need this tool.
 - set_zone_setpoint: propose a new OCCUPIED-HOURS heating/cooling setpoint
-  (building-wide -- all zones share one schedule in this model). Hard
-  safety bounds are enforced server-side: heating 16-24C, cooling 22-30C,
-  minimum 2C deadband. Out-of-bounds requests are rejected automatically.
+  (building-wide -- all zones share one schedule in this model), using
+  heating_schedule_name="HTGSETP_SCH" and cooling_schedule_name="CLGSETP_SCH".
+  Hard safety bounds are enforced server-side: heating 16-24C, cooling
+  22-30C, minimum 2C deadband. Out-of-bounds requests are rejected
+  automatically.
 - run_simulation: re-run EnergyPlus with your current setpoints and get
   the new compact summary
 
@@ -246,6 +260,13 @@ def run_agent():
     for i in range(MAX_ITERATIONS):
         print(f"\n{'='*20} ITERATION {i+1} {'='*20}")
 
+        if i > 0:
+            # Groq's free tier caps at 6000 tokens/minute, and each iteration's
+            # request grows (full message history is resent every call). A
+            # fixed pause between calls keeps us under that ceiling instead of
+            # discovering it mid-run, as happened in the iteration-4 rate limit.
+            time.sleep(20)
+
         try:
             response = client.chat.completions.create(
                 model=MODEL,
@@ -255,10 +276,21 @@ def run_agent():
                 temperature=0.2,
             )
         except RateLimitError as e:
-            print(f"\nRATE LIMIT HIT -- stopping gracefully. Details: {e}")
-            print("Wait for the cooldown period shown above, or reduce MAX_ITERATIONS, "
-                  "before running again.")
-            break
+            print(f"\nRATE LIMIT HIT once -- waiting 30s and retrying this iteration. Details: {e}")
+            time.sleep(30)
+            try:
+                response = client.chat.completions.create(
+                    model=MODEL,
+                    messages=messages,
+                    tools=TOOLS,
+                    tool_choice="auto",
+                    temperature=0.2,
+                )
+            except (RateLimitError, APIStatusError) as e2:
+                print(f"\nRATE LIMIT HIT AGAIN -- stopping gracefully. Details: {e2}")
+                print("Wait for the cooldown period shown above, or reduce MAX_ITERATIONS, "
+                      "before running again.")
+                break
         except APIStatusError as e:
             print(f"\nAPI ERROR -- stopping gracefully. Details: {e}")
             break

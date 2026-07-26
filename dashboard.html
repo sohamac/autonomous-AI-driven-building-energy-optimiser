@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Eco-Loop Building Agents — Quantitative Savings Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1419; --card:#161d27; --border:#26313f;
+    --text:#e8edf2; --muted:#8a97a6;
+    --accent:#3ddc97; --warn:#ffb84d; --bad:#ff6b6b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:32px 24px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+  h1{font-size:1.5rem;margin:0 0 4px;}
+  .sub{color:var(--muted);margin:0 0 28px;font-size:0.95rem;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+  .stat{
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:18px 20px;
+  }
+  .stat .label{color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.04em;}
+  .stat .value{font-size:1.7rem;font-weight:700;margin-top:6px;}
+  .stat .value.good{color:var(--accent);}
+  .stat .value.warn{color:var(--warn);}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:20px 24px;margin-bottom:20px;
+  }
+  .card h2{font-size:1.05rem;margin:0 0 14px;}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+  th,td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--border);}
+  th:first-child,td:first-child{text-align:left;}
+  th{color:var(--muted);font-weight:600;font-size:0.78rem;text-transform:uppercase;}
+  tr.recommended{background:rgba(61,220,151,0.08);}
+  tr.recommended td:first-child{font-weight:700;color:var(--accent);}
+  .badge{
+    display:inline-block;padding:2px 9px;border-radius:20px;font-size:0.72rem;
+    font-weight:600;background:rgba(61,220,151,0.15);color:var(--accent);
+    margin-left:8px;
+  }
+  .note{color:var(--muted);font-size:0.85rem;line-height:1.5;margin-top:10px;}
+  canvas{max-height:320px;}
+  .method{font-size:0.85rem;color:var(--muted);line-height:1.6;}
+  .method b{color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Eco-Loop Building Agents — Quantitative Savings Dashboard</h1>
+  <p class="sub">Small office building · Mumbai climate (EnergyPlus) · Baseline vs. AI-driven closed-loop setpoint search</p>
+
+  <div class="grid">
+    <div class="stat">
+      <div class="label">Baseline Energy</div>
+      <div class="value">78,057.8 <span style="font-size:0.9rem;color:var(--muted);">kWh/yr</span></div>
+    </div>
+    <div class="stat">
+      <div class="label">Optimized Energy</div>
+      <div class="value good">73,040.0 <span style="font-size:0.9rem;color:var(--muted);">kWh/yr</span></div>
+    </div>
+    <div class="stat">
+      <div class="label">Energy Savings</div>
+      <div class="value good">+6.4%</div>
+    </div>
+    <div class="stat">
+      <div class="label">Comfort Violations</div>
+      <div class="value warn">38 → 45</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Energy vs. Comfort Trade-off Curve</h2>
+    <canvas id="curveChart"></canvas>
+    <p class="note">Cooling setpoint swept 24.0°C → 26.0°C (heating held fixed at 21°C — proven to have no
+      measurable effect on this Mumbai-climate model). Each point is a full annual EnergyPlus simulation.</p>
+  </div>
+
+  <div class="card">
+    <h2>Full Search Results</h2>
+    <table>
+      <thead>
+        <tr><th>Cooling Setpoint</th><th>Annual kWh</th><th>Savings vs Baseline</th><th>Comfort Violations</th><th>Violations Δ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>24.0°C (baseline)</td><td>78,057.8</td><td>+0.0%</td><td>38</td><td>+0</td></tr>
+        <tr><td>24.5°C</td><td>75,130.9</td><td>+3.7%</td><td>45</td><td>+7</td></tr>
+        <tr class="recommended"><td>25.0°C <span class="badge">RECOMMENDED</span></td><td>73,040.0</td><td>+6.4%</td><td>45</td><td>+7</td></tr>
+        <tr><td>25.5°C</td><td>70,754.7</td><td>+9.4%</td><td>48</td><td>+10</td></tr>
+        <tr><td>26.0°C</td><td>68,763.7</td><td>+11.9%</td><td>53</td><td>+15</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Selection rule: best energy savings among setpoints keeping comfort violations within
+      20% of baseline (38 × 1.2 = 45.6 max). 25.0°C is the highest-savings point that still qualifies.</p>
+  </div>
+
+  <div class="card">
+    <h2>Methodology</h2>
+    <p class="method">
+      <b>Search:</b> deterministic sweep of the building-wide cooling setpoint schedule (heating fixed),
+      each point evaluated with a full annual EnergyPlus 26.1.0 simulation against Mumbai ISHRAE weather data.<br><br>
+      <b>Why not the LLM agent's own choice:</b> an autonomous LLM agent (llama-3.1-8b-instant via Groq,
+      MCP-style tool-calling) was given the same tools and explicit trend-feedback verdicts
+      ("GOT WORSE — reverse direction") but made three consecutive setpoint changes that worsened both
+      energy and comfort, ignoring its own verdict data. The deterministic sweep replaces the agent's
+      final decision-making step with a transparent, inspectable rule, while the agent's tool-calling
+      loop and MCP architecture remain part of the demonstrated system.<br><br>
+      <b>Constraint:</b> PMV thermal comfort band -0.5 to +0.5, violation = >10% of occupied hours
+      outside that band in a given month/zone.
+    </p>
+  </div>
+</div>
+
+<script>
+const labels = ['24.0°C\n(baseline)', '24.5°C', '25.0°C\n(recommended)', '25.5°C', '26.0°C'];
+const kwh = [78057.8, 75130.9, 73040.0, 70754.7, 68763.7];
+const violations = [38, 45, 45, 48, 53];
+
+new Chart(document.getElementById('curveChart'), {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        type: 'line',
+        label: 'Comfort Violations',
+        data: violations,
+        borderColor: '#ffb84d',
+        backgroundColor: '#ffb84d',
+        yAxisID: 'y1',
+        tension: 0.3,
+        pointRadius: 5,
+        pointBackgroundColor: violations.map((v,i)=> i===2 ? '#3ddc97' : '#ffb84d'),
+      },
+      {
+        type: 'bar',
+        label: 'Annual Energy (kWh)',
+        data: kwh,
+        backgroundColor: kwh.map((v,i)=> i===2 ? 'rgba(61,220,151,0.55)' : 'rgba(120,140,160,0.35)'),
+        yAxisID: 'y',
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { color: '#e8edf2' } },
+      tooltip: { mode: 'index', intersect: false },
+    },
+    scales: {
+      x: { ticks: { color: '#8a97a6' }, grid: { color: '#26313f' } },
+      y: {
+        position: 'left',
+        title: { display: true, text: 'kWh / year', color: '#8a97a6' },
+        ticks: { color: '#8a97a6' },
+        grid: { color: '#26313f' },
+      },
+      y1: {
+        position: 'right',
+        title: { display: true, text: 'Comfort Violations (count)', color: '#8a97a6' },
+        ticks: { color: '#8a97a6' },
+        grid: { drawOnChartArea: false },
+      },
+    }
+  }
+});
+</script>
+</body>
+</html>

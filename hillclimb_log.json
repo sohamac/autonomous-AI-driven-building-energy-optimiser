@@ -1,0 +1,246 @@
+{
+  "baseline_kwh": 78057.8,
+  "baseline_violations": 38,
+  "full_curve": [
+    {
+      "cooling_c": 24.0,
+      "heating_c": 21.0,
+      "annual_kwh": 78057.8,
+      "num_violations": 38,
+      "kwh_savings_pct": 0.0,
+      "violations_change": 0,
+      "worst_violations": [
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_1",
+          "avg_pmv": 0.74,
+          "pct_hours_outside_comfort_band": 98.7
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.74,
+          "pct_hours_outside_comfort_band": 98.4
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_4",
+          "avg_pmv": 0.74,
+          "pct_hours_outside_comfort_band": 96.9
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_3",
+          "avg_pmv": 0.69,
+          "pct_hours_outside_comfort_band": 96.6
+        },
+        {
+          "month": "month_04",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.73,
+          "pct_hours_outside_comfort_band": 96.1
+        }
+      ]
+    },
+    {
+      "cooling_c": 24.5,
+      "heating_c": 21.0,
+      "annual_kwh": 75130.9,
+      "num_violations": 45,
+      "kwh_savings_pct": 3.7,
+      "violations_change": 7,
+      "worst_violations": [
+        {
+          "month": "month_10",
+          "zone": "CORE_ZN",
+          "avg_pmv": 0.71,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_1",
+          "avg_pmv": 0.82,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.82,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_3",
+          "avg_pmv": 0.77,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_4",
+          "avg_pmv": 0.81,
+          "pct_hours_outside_comfort_band": 100.0
+        }
+      ]
+    },
+    {
+      "cooling_c": 25.0,
+      "heating_c": 21.0,
+      "annual_kwh": 73040.0,
+      "num_violations": 45,
+      "kwh_savings_pct": 6.4,
+      "violations_change": 7,
+      "worst_violations": [
+        {
+          "month": "month_10",
+          "zone": "CORE_ZN",
+          "avg_pmv": 0.78,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_1",
+          "avg_pmv": 0.88,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.89,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_3",
+          "avg_pmv": 0.84,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_4",
+          "avg_pmv": 0.88,
+          "pct_hours_outside_comfort_band": 100.0
+        }
+      ]
+    },
+    {
+      "cooling_c": 25.5,
+      "heating_c": 21.0,
+      "annual_kwh": 70754.7,
+      "num_violations": 48,
+      "kwh_savings_pct": 9.4,
+      "violations_change": 10,
+      "worst_violations": [
+        {
+          "month": "month_03",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.84,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_03",
+          "zone": "PERIMETER_ZN_4",
+          "avg_pmv": 0.82,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "CORE_ZN",
+          "avg_pmv": 0.86,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_1",
+          "avg_pmv": 0.96,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.96,
+          "pct_hours_outside_comfort_band": 100.0
+        }
+      ]
+    },
+    {
+      "cooling_c": 26.0,
+      "heating_c": 21.0,
+      "annual_kwh": 68763.7,
+      "num_violations": 53,
+      "kwh_savings_pct": 11.9,
+      "violations_change": 15,
+      "worst_violations": [
+        {
+          "month": "month_03",
+          "zone": "PERIMETER_ZN_1",
+          "avg_pmv": 0.88,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_03",
+          "zone": "PERIMETER_ZN_2",
+          "avg_pmv": 0.91,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_03",
+          "zone": "PERIMETER_ZN_4",
+          "avg_pmv": 0.9,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "CORE_ZN",
+          "avg_pmv": 0.94,
+          "pct_hours_outside_comfort_band": 100.0
+        },
+        {
+          "month": "month_10",
+          "zone": "PERIMETER_ZN_1",
+          "avg_pmv": 1.03,
+          "pct_hours_outside_comfort_band": 100.0
+        }
+      ]
+    }
+  ],
+  "recommended": {
+    "cooling_c": 25.0,
+    "heating_c": 21.0,
+    "annual_kwh": 73040.0,
+    "num_violations": 45,
+    "kwh_savings_pct": 6.4,
+    "violations_change": 7,
+    "worst_violations": [
+      {
+        "month": "month_10",
+        "zone": "CORE_ZN",
+        "avg_pmv": 0.78,
+        "pct_hours_outside_comfort_band": 100.0
+      },
+      {
+        "month": "month_10",
+        "zone": "PERIMETER_ZN_1",
+        "avg_pmv": 0.88,
+        "pct_hours_outside_comfort_band": 100.0
+      },
+      {
+        "month": "month_10",
+        "zone": "PERIMETER_ZN_2",
+        "avg_pmv": 0.89,
+        "pct_hours_outside_comfort_band": 100.0
+      },
+      {
+        "month": "month_10",
+        "zone": "PERIMETER_ZN_3",
+        "avg_pmv": 0.84,
+        "pct_hours_outside_comfort_band": 100.0
+      },
+      {
+        "month": "month_10",
+        "zone": "PERIMETER_ZN_4",
+        "avg_pmv": 0.88,
+        "pct_hours_outside_comfort_band": 100.0
+      }
+    ]
+  }
+}
