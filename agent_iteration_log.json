@@ -1,0 +1,42 @@
+[
+  {
+    "iteration": 1,
+    "tool": "get_current_summary",
+    "args": {},
+    "result_snippet": "{\"annual_total_kwh\": 78057.8, \"num_comfort_violations\": 38, \"worst_violations\": [{\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_1\", \"avg_pmv\": 0.74, \"pct_hours_outside_comfort_band\": 98.7}, {\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_2\", \"avg_pmv\": 0.74, \"pct_hours_outside_comfort_band\": 98.4}, {\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_4\", \"avg_pmv\": 0.74, \"pct_hours_outside_comfort_band\": 96.9}, {\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_3\", \"avg_pmv\": 0.69, \"pct_hours_outside_comfort_band\": 96"
+  },
+  {
+    "iteration": 1,
+    "tool": "list_zone_thermostats",
+    "args": {},
+    "result_snippet": "[\n  {\n    \"name\": \"Core_ZN DualSPSched\",\n    \"heating_schedule\": \"HTGSETP_SCH\",\n    \"cooling_schedule\": \"CLGSETP_SCH\"\n  },\n  {\n    \"name\": \"Perimeter_ZN_1 DualSPSched\",\n    \"heating_schedule\": \"HTGSETP_SCH\",\n    \"cooling_schedule\": \"CLGSETP_SCH\"\n  },\n  {\n    \"name\": \"Perimeter_ZN_2 DualSPSched\",\n    \"heating_schedule\": \"HTGSETP_SCH\",\n    \"cooling_schedule\": \"CLGSETP_SCH\"\n  },\n  {\n    \"name\": \"Perimeter_ZN_3 DualSPSched\",\n    \"heating_schedule\": \"HTGSETP_SCH\",\n    \"cooling_schedule\": \"CLGSETP_SCH"
+  },
+  {
+    "iteration": 1,
+    "tool": "set_zone_setpoint",
+    "args": {
+      "cooling_schedule_name": "cooling_schedule_1",
+      "heating_schedule_name": "heating_schedule_1",
+      "new_cooling_setpoint_c": 25,
+      "new_heating_setpoint_c": 22
+    },
+    "result_snippet": "{\"error\": \"No matching Schedule:Compact objects found for 'heating_schedule_1' or 'cooling_schedule_1'.\"}"
+  },
+  {
+    "iteration": 2,
+    "tool": "run_simulation",
+    "args": {},
+    "result_snippet": "{\"annual_total_kwh\": 78057.8, \"num_comfort_violations\": 38, \"worst_violations\": [{\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_1\", \"avg_pmv\": 0.74, \"pct_hours_outside_comfort_band\": 98.7}, {\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_2\", \"avg_pmv\": 0.74, \"pct_hours_outside_comfort_band\": 98.4}, {\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_4\", \"avg_pmv\": 0.74, \"pct_hours_outside_comfort_band\": 96.9}, {\"month\": \"month_10\", \"zone\": \"PERIMETER_ZN_3\", \"avg_pmv\": 0.69, \"pct_hours_outside_comfort_band\": 96"
+  },
+  {
+    "iteration": 3,
+    "tool": "set_zone_setpoint",
+    "args": {
+      "cooling_schedule_name": "CLGSETP_SCH",
+      "heating_schedule_name": "HTGSETP_SCH",
+      "new_cooling_setpoint_c": 24.5,
+      "new_heating_setpoint_c": 22
+    },
+    "result_snippet": "{\"status\": \"applied\", \"updated_schedules\": [{\"schedule\": \"CLGSETP_SCH\", \"occupied_blocks_changed\": 2}, {\"schedule\": \"HTGSETP_SCH\", \"occupied_blocks_changed\": 2}], \"new_heating_setpoint_c\": 22, \"new_cooling_setpoint_c\": 24.5, \"note\": \"Call run_simulation() next to see the effect of this change.\"}"
+  }
+]

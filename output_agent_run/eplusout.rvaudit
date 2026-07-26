@@ -1,0 +1,16 @@
+ ReadVarsESO
+ processing:/Users/apple/Desktop/Honeywell2/RefBldgSmallOffice_Mumbai_baseline_eabf2c.rvi
+ input file:/Users/apple/Desktop/Honeywell2/output_agent_run/eplusout.eso
+ output file:/Users/apple/Desktop/Honeywell2/output_agent_run/eplusout.csv
+ getting all vars from:/Users/apple/Desktop/Honeywell2/output_agent_run/eplusout.eso
+  number variables requested for output=          80
+ ReadVars Run Time=00hr 00min  0.54sec
+ ReadVarsESO program completed successfully.
+ ReadVarsESO
+ processing:/Users/apple/Desktop/Honeywell2/RefBldgSmallOffice_Mumbai_baseline_eabf2c.mvi
+ input file:/Users/apple/Desktop/Honeywell2/output_agent_run/eplusout.mtr
+ output file:/Users/apple/Desktop/Honeywell2/output_agent_run/eplusmtr.csv
+ getting all vars from:/Users/apple/Desktop/Honeywell2/output_agent_run/eplusout.mtr
+  number variables requested for output=          36
+ ReadVars Run Time=00hr 00min  0.16sec
+ ReadVarsESO program completed successfully.
