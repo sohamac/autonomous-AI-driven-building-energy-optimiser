@@ -56,6 +56,7 @@ Full breakdown of tool-calling design, prompt engineering iterations (including 
 
 | File | What it does |
 |---|---|
+| `main.py` | **CLI entry point** — orchestrates the full pipeline below with a clean terminal UI and a final results comparison table |
 | `run_mumbai_baseline.py` | Fixes the reference IDF to run a real annual Mumbai simulation (not just 2 design days), adds PMV output, saves the baseline |
 | `baseline_annual.csv` / `baseline_monthly_summary.json` | Ground-truth baseline: 8,760-row raw output + condensed monthly summary |
 | `mcp_energyplus_server.py` | Tool server: `get_current_summary`, `list_zone_thermostats`, `set_zone_setpoint` (safety-bounded, setback-preserving), `run_simulation` |
@@ -76,21 +77,29 @@ Full breakdown of tool-calling design, prompt engineering iterations (including 
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-# 1. Generate the baseline (requires EnergyPlus installed locally)
-python run_mumbai_baseline.py
-
-# 2. Condense it for LLM consumption
-python summarize_baseline.py
-
-# 3. Run the deterministic sweep (produces the +6.4% result)
-python run_hillclimb_loop.py
-
-# 4. Get an LLM-reasoned recommendation over the sweep (requires GROQ_API_KEY)
+# Optional: copy .env.example to .env and add your Groq key,
+# or just export it directly:
 export GROQ_API_KEY="your-key-here"
-python run_agent_decision.py
 
-# 5. Open the dashboard
-open dashboard.html   # or just open the file in any browser
+# Run the full pipeline: baseline -> sweep -> LLM recommendation
+python main.py run
+```
+
+That single command runs baseline simulation → summarization → deterministic setpoint sweep → LLM reasoning over the results, and prints a final comparison table. Then open `dashboard.html` in a browser for the full visual report.
+
+**Individual steps**, if you want to run or re-run just one stage:
+```bash
+python main.py baseline   # baseline simulation only
+python main.py sweep      # deterministic setpoint sweep only (requires baseline)
+python main.py decide     # LLM reasons over an existing sweep result only
+```
+
+**Or run the underlying scripts directly**, exactly as they were originally built and tested:
+```bash
+python run_mumbai_baseline.py
+python summarize_baseline.py
+python run_hillclimb_loop.py
+python run_agent_decision.py
 ```
 
 Requires [EnergyPlus 26.1.0+](https://energyplus.net/downloads) installed locally, and a free [Groq API key](https://console.groq.com) for the agent steps.
