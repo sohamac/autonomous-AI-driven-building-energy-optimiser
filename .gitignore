@@ -1,0 +1,5 @@
+myenv/
+output/
+output_mumbai_baseline/
+*.pyc
+__pycache__/
