@@ -22,6 +22,12 @@ import subprocess
 import sys
 import time
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv is optional -- GROQ_API_KEY can also be exported directly
+
 CYAN = "\033[96m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -118,7 +124,7 @@ def cmd_run(args):
     else:
         print(f"\n{YELLOW}Skipping LLM decision step -- GROQ_API_KEY not set.{RESET}")
         print(f"  Get a free key at: {CYAN}https://console.groq.com{RESET}")
-        print(f"  Then: {YELLOW}export GROQ_API_KEY='your-key-here'{RESET}")
+        print(f"  Then: {YELLOW}export GROQ_API_KEY='your-key-here'{RESET} (or copy .env.example to .env)")
 
     print_comparison()
     print(f"\n{BOLD}🎉 Pipeline complete!{RESET} Open {CYAN}dashboard.html{RESET} in a browser to view the full report.\n")
